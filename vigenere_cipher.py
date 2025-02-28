@@ -1,5 +1,5 @@
 def vigenere_encrypt(plain, key):
-    plain_text = plain.replace(' ','').lower() #supprimer les espaces
+    plain_text = plain.lower() #supprimer les espaces
     
     # preparer la clé
     extended_key=""
@@ -19,11 +19,13 @@ def vigenere_encrypt(plain, key):
             
             shifted = (ord(char) - ord('a') + key_shift) % 26 + ord('a')
             result += chr(shifted)
+        else:
+            result += ' '
     
     return result
         
 def vigenere_decrypt(cipher, key):
-    cipher_text = cipher.replace(' ','').lower() #supprimer les espaces
+    cipher_text = cipher.lower() #supprimer les espaces
     
     # preparer la clé
     extended_key=""
@@ -43,7 +45,8 @@ def vigenere_decrypt(cipher, key):
             
             shifted = (ord(char) - ord('a') - key_shift) % 26 + ord('a')
             result += chr(shifted)
-        
+        else:
+            result += ' '
     
     return result
 
