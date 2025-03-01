@@ -1,5 +1,5 @@
 def vigenere_encrypt(plain, key):
-    plain_text = plain.lower() #supprimer les espaces
+    plain_text = plain.lower() 
     
     # preparer la clé
     extended_key=""
@@ -25,7 +25,7 @@ def vigenere_encrypt(plain, key):
     return result
         
 def vigenere_decrypt(cipher, key):
-    cipher_text = cipher.lower() #supprimer les espaces
+    cipher_text = cipher.lower() 
     
     # preparer la clé
     extended_key=""
