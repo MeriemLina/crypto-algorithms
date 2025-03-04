@@ -57,7 +57,7 @@ def affine_decrypt(cipher, a, b):
     
     
 try:
-    encrypted = affine_encrypt("today was a great day, because i'm starting to get rid of my social anxiety slowly, but surely", 17, 20)
+    encrypted = affine_encrypt("bonjour, en ce moment j'écoute une chanson magnifique, mais juste magique, quelle belle journée, on adore", 17, 20)
     print("Encrypted:", encrypted)
     
     decrypted = affine_decrypt(encrypted, 17, 20)
