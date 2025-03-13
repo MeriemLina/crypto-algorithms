@@ -166,11 +166,65 @@ def kasiski_test(ciphertext):
     return results
 
 
+#tester des variations de la clé, for the highest scores
+def try_key_variations(ciphertext, base_key):
+    best_score = score_text_french(vigenere_decrypt(ciphertext, base_key))  # Start with current score
+    best_key = base_key
+    best_plaintext = vigenere_decrypt(ciphertext, base_key)
+    
+    print(f"Starting with key: {base_key}, score: {best_score}")
+    print(f"Trying variations...")
+    
+    # Try changing each position in the key
+    for pos in range(len(base_key)):
+        for letter in 'abcdefghijklmnopqrstuvwxyz':
+            if letter == base_key[pos]:  # Skip if it's the same letter
+                continue
+                
+            test_key = base_key[:pos] + letter + base_key[pos+1:]
+            plaintext = vigenere_decrypt(ciphertext, test_key)
+            score = score_text_french(plaintext)
+            
+            if score > best_score:
+                best_score = score
+                best_key = test_key
+                best_plaintext = plaintext
+                print(f"Improved key: {best_key}, score: {best_score}")
+    
+    if best_key == base_key:
+        print("No improvement found with simple variations.")
+    else:
+        print(f"Best variation found: {best_key}, score: {best_score}")
+        print(f"Decryption sample: {best_plaintext[:100]}...")
+    
+    return best_key, best_plaintext, best_score
+
+
 if __name__ == "__main__":
-    results = kasiski_test("MAXSMWJOERYVDLVGYVUUESFHNEEHYVTEEHCHMPFILJBRRBNLSLRGYFVRZHYGFSGFIFFSJIMFSYGHIJSAGVCTVEJIHHHEJHCROEWTCFBCVRYVDLVGJHSMVHXHHEESLHSDZGNUJBLSLHUSKCWNFRCSMFMEJRYPBNZSLHTETILLTEVZOWJLZGUWJOERYPPDLZYVEEJSWXSIKSGDUEIWYOTRVBZRSCVQYWUEXSMWJOESHSSOKSAHBNKZYVDLVGWROTISFHTATQYVOOEOOWPRZGYVVNVPIQOEXSMWJOERYVDLVGYVUCIIWLBLVDIXSMRWHWFNZFFDTETILLUEUSMVZSKSGHTCIMJWPGIOJKJQLSMFBRLBYFMETCGSSODWMHQELHYQURRWHHSDVGPLPLRHCROSUSXRONVSMVJGEWZLDAKWPHT")
+    ciphertext = "MAXSMWJOERYVDLVGYVUUESFHNEEHYVTEEHCHMPFILJBRRBNLSLRGYFVRZHYGFSGFIFFSJIMFSYGHIJSAGVCTVEJIHHHEJHCROEWTCFBCVRYVDLVGJHSMVHXHHEESLHSDZGNUJBLSLHUSKCWNFRCSMFMEJRYPBNZSLHTETILLTEVZOWJLZGUWJOERYPPDLZYVEEJSWXSIKSGDUEIWYOTRVBZRSCVQYWUEXSMWJOESHSSOKSAHBNKZYVDLVGWROTISFHTATQYVOOEOOWPRZGYVVNVPIQOEXSMWJOERYVDLVGYVUCIIWLBLVDIXSMRWHWFNZFFDTETILLUEUSMVZSKSGHTCIMJWPGIOJKJQLSMFBRLBYFMETCGSSODWMHQELHYQURRWHHSDVGPLPLRHCROSUSXRONVSMVJGEWZLDAKWPHT"
+    results = kasiski_test(ciphertext)
     
     print("\n===== FINAL RESULTS =====")
-    for key, plaintext in results:
+    for key_length, key, plaintext, score in results:
+        print(f"\nKey length: {key_length}")
         print(f"Key: {key}")
+        print(f"Score: {score}")
         print(f"Decryption sample: {plaintext[:200]}")
         print("-" * 50)
+    
+    if results:
+        # Get the best key from top result
+        top_key_length, top_key, top_plaintext, top_score = results[0]
+        print("\n===== TRYING KEY VARIATIONS =====")
+        best_key2, best_plaintext2, best_score2 = try_key_variations(ciphertext, top_key)
+        
+        print("\n===== FINAL BEST RESULT =====")
+        print(f"Original key: {top_key}, score: {top_score}")
+        print(f"Improved key: {best_key2}, score: {best_score2}")
+        if best_score2 > top_score:
+            print("Found better key through variations!")
+            print(f"Decryption with improved key: {best_plaintext2[:200]}")
+        else:
+            print("Original key was already optimal.")
+    else:
+        print("No results found from Kasiski test.")

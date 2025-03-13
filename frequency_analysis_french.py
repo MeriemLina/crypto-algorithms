@@ -63,9 +63,11 @@ def score_text_french(text):
     common_words = ['le', 'la', 'les', 'un', 'une', 'des', 'et', 'est', 'en', 'que', 
                    'qui', 'dans', 'pour', 'pas', 'sur', 'ce', 'il', 'je', 'vous', 'de',
                    'avec', 'du', 'au', 'par', 'nous', 'mais', 'ou', 'si', 'leur',
-                   'sont', 'cette', 'tout', 'ces', 'plus']
+                   'sont', 'cette', 'tout', 'ces', 'plus','distribuer','crypto']
     # Common French bigrams
     common_bigrams = ['es', 'le', 'de', 'en', 'on', 'nt', 'an', 're', 'er', 'ur', 'it', 'te', 'ou', 'ai']
+    common_trigrams = ['ent', 'les', 'que', 'des', 'ont', 'ant', 'ion', 'our', 'ment', 'est']
+    common_quadgrams = ['tion', 'ment', 'ique', 'pour', 'eurs', 'iste']
     
     score = 0
     
@@ -79,6 +81,16 @@ def score_text_french(text):
         bigram = text[i:i+2].lower()
         if bigram in common_bigrams:
             score += 1
+
+    for i in range(len(text) - 2):
+        trigram = text[i:i+3]
+        if trigram in common_trigrams:
+            score += 3
+    
+    for i in range(len(text) - 3):
+        quadgram = text[i:i+4]
+        if quadgram in common_quadgrams:
+            score += 5
     
     return score
 
