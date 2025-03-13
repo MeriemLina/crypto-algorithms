@@ -50,7 +50,3 @@ def vigenere_decrypt(cipher, key):
     
     return result
 
-encrypted = vigenere_encrypt("lina is amazing","bet")
-print(encrypted)
-decrypted = vigenere_decrypt(encrypted,"bet")
-print(decrypted)

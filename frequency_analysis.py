@@ -102,17 +102,3 @@ def score_text(text):
     
     return score
 
-if __name__ == "__main__":
-    # Example encrypted text
-    encrypted = "fytum euo u sxkuf tum lkcuwok a q ofuxfahs fy skf xat yb qm oycauz uhvakfm ozyezm lwf owxkzm zkf o jypk byx fjk lkof"
-    
-    decrypted, key = crack_affine_cipher(encrypted)
-    print(f"Ciphertext: {encrypted}")
-    print(f"Decrypted: {decrypted}")
-    print(f"Key found: a={key[0]}, b={key[1]}")
-    
-    # For manual inspection, you can also print letter frequencies
-    print("\nFrequency Analysis:")
-    freq = freqAnalysis(encrypted)
-    for letter, percentage in freq.items():
-        print(f"{letter}: {percentage:.2f}%")
